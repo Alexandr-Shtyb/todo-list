@@ -51,3 +51,13 @@ export const Separator = styled(Divider)`
   margin-bottom: 20px;
   border-style: none;
 `
+
+export const SeparatorTodos = styled(Divider)`
+  margin: 10px 0;
+`
+
+export const NoData = styled.h2`
+  display: flex;
+  justify-content: center;
+  color: #fff;
+`

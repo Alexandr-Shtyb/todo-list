@@ -17,13 +17,14 @@ export const Title = styled.h2`
   margin-top: 0;
   font-weight: 700;
   font-size: 24px;
-  color: #fff;
+  color: #deceb1;
 `
 
 export const Description = styled.p`
   margin: 0;
   font-weight: 600;
   font-size: 16px;
+  color: #fff;
 `
 
 export const WrapperButtons = styled.div`
@@ -40,4 +41,14 @@ export const CustomButton = styled(Button)<ICustomButton>`
     background-color: #fff;
     border: 1px solid #ffa500;
   }
+`
+
+export const TitleCompletedTodo = styled(Title)`
+  text-decoration: line-through;
+  color: #4e4e4e;
+`
+
+export const DescriptionCompletedTodo = styled(Description)`
+  text-decoration: line-through;
+  color: #4e4e4e;
 `

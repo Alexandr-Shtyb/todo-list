@@ -8,21 +8,47 @@ import {
   Description,
   WrapperButtons,
   CustomButton,
+  TitleCompletedTodo,
+  DescriptionCompletedTodo,
 } from './style'
 
-const Todo: FC<ITodo> = ({ title, description }) => {
+const Todo: FC<ITodo> = ({
+  id,
+  title,
+  description,
+  completed,
+  removeTodo,
+  completeTodo,
+}) => {
   return (
     <WrapperTodo>
       <WrapperAboutTodoBlock>
-        <Title>{title}</Title>
-        <Description>{description}</Description>
+        {!completed ? (
+          <Title>{title}</Title>
+        ) : (
+          <TitleCompletedTodo>{title}</TitleCompletedTodo>
+        )}
+        {!completed ? (
+          <Description>{description}</Description>
+        ) : (
+          <DescriptionCompletedTodo>{description}</DescriptionCompletedTodo>
+        )}
       </WrapperAboutTodoBlock>
 
       <WrapperButtons>
-        <CustomButton variant="outlined" completed>
-          Complete
+        {!completed && (
+          <CustomButton
+            variant="outlined"
+            completed
+            onClick={() => completeTodo(id)}
+          >
+            Complete
+          </CustomButton>
+        )}
+
+        <CustomButton onClick={() => removeTodo(id)} variant="outlined">
+          Delete
         </CustomButton>
-        <CustomButton variant="outlined">Delete</CustomButton>
       </WrapperButtons>
     </WrapperTodo>
   )
