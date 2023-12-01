@@ -3,7 +3,6 @@ import { gql } from '@apollo/client'
 export const ADD_TODO = gql`
   mutation AddTodo($input: TodoInput!) {
     addTodo(input: $input) {
-      id
       title
       description
       completed

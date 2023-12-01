@@ -2,12 +2,13 @@ import { useEffect, useState, useMemo, Fragment } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import InputBlock from '../InputBlock/InputBlock'
 import Todo from '../Todo/Todo'
-import { INewTodo } from '../../../../server/intefaces/todo'
+import { ITodo, INewTodo } from '../../../../server/intefaces/todo'
 import { ICacheItemTodos } from './interface'
 import { GET_ALL_TODOS } from '../../queries/todo'
 import { ADD_TODO, DELETE_TODO, COMPLETE_TODO } from '../../mutations/todo'
 import { useQuery, useMutation } from '@apollo/client'
 import Spin from '../Spin/Spin'
+import { ObjectId } from 'mongoose'
 import {
   AppContainer,
   MainHeader,
@@ -48,15 +49,23 @@ const App = () => {
       })
     },
   })
-  const [completeTodo, { error: completeError }] = useMutation(COMPLETE_TODO)
+  const [completeTodo, { error: completeError }] = useMutation(COMPLETE_TODO, {
+    update(cache, { data: { completeTodo } }) {
+      cache.modify({
+        id: cache.identify(completeTodo),
+        fields: {
+          completed: () => true,
+        },
+      })
+    },
+  })
 
-  const [arrayTodos, setArrayTodos] = useState<INewTodo[]>([])
+  const [arrayTodos, setArrayTodos] = useState<ITodo[]>([])
   const [titleTodo, setTitleTodo] = useState<string>('')
   const [descriptionTodo, setDescriptionTodo] = useState<string>('')
 
   const inputNewTodo = useMemo(() => {
     const input: INewTodo = {
-      id: uuidv4(),
       title: titleTodo,
       completed: false,
     }
@@ -84,7 +93,7 @@ const App = () => {
       })
   }
 
-  const removeTodo = (id: string) => {
+  const removeTodo = (id: ObjectId) => {
     deleteTodo({
       variables: {
         id,
@@ -100,14 +109,14 @@ const App = () => {
       })
   }
 
-  const completedTodo = (id: string) => {
+  const completedTodo = (id: ObjectId) => {
     try {
       completeTodo({
         variables: {
           id,
         },
       })
-    } catch(err) {
+    } catch (err) {
       console.log('Error: ', err)
     }
   }
@@ -158,7 +167,7 @@ const App = () => {
         {arrayTodos.length > 0 ? (
           arrayTodos.map((todo, index) => {
             return (
-              <Fragment key={todo.id}>
+              <Fragment key={uuidv4()}>
                 <Todo
                   id={todo.id}
                   title={todo.title}

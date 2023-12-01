@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ITodo } from './interface'
+import { ITodoProps } from './interface'
 
 import {
   WrapperTodo,
@@ -12,7 +12,7 @@ import {
   DescriptionCompletedTodo,
 } from './style'
 
-const Todo: FC<ITodo> = ({
+const Todo: FC<ITodoProps> = ({
   id,
   title,
   description,
